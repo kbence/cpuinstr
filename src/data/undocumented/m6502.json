@@ -1,0 +1,1057 @@
+{
+  "set": "m6502",
+  "note": "The 105 opcodes of 256 that MOS never documented. They are not part of the instruction set: behaviour varies by chip and batch, seven are explicitly unstable, and the twelve KIL opcodes hang the processor until reset. Listed for disassembly and emulator work only.",
+  "source": "Transcribed from the shaded cells of http://www.oxyron.de/html/opcodes02.html, with that page's per-mnemonic function column and per-opcode stability markers",
+  "opcodes": [
+    {
+      "opcode": "02",
+      "mnemonic": "KIL",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": null,
+      "stability": "halts",
+      "function": "hangs the processor until reset"
+    },
+    {
+      "opcode": "03",
+      "mnemonic": "SLO",
+      "mode": "indexed_indirect",
+      "operand": "(<zp>,X)",
+      "bytes": 2,
+      "cycles": "8",
+      "stability": "stable",
+      "function": "{adr}:={adr}*2 A:=A or {adr}"
+    },
+    {
+      "opcode": "04",
+      "mnemonic": "NOP",
+      "mode": "zero_page",
+      "operand": "<zp>",
+      "bytes": 2,
+      "cycles": "3",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "07",
+      "mnemonic": "SLO",
+      "mode": "zero_page",
+      "operand": "<zp>",
+      "bytes": 2,
+      "cycles": "5",
+      "stability": "stable",
+      "function": "{adr}:={adr}*2 A:=A or {adr}"
+    },
+    {
+      "opcode": "0B",
+      "mnemonic": "ANC",
+      "mode": "immediate",
+      "operand": "#<imm8>",
+      "bytes": 2,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "A:=A&#{imm}"
+    },
+    {
+      "opcode": "0C",
+      "mnemonic": "NOP",
+      "mode": "absolute",
+      "operand": "<abs16>",
+      "bytes": 3,
+      "cycles": "4",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "0F",
+      "mnemonic": "SLO",
+      "mode": "absolute",
+      "operand": "<abs16>",
+      "bytes": 3,
+      "cycles": "6",
+      "stability": "stable",
+      "function": "{adr}:={adr}*2 A:=A or {adr}"
+    },
+    {
+      "opcode": "12",
+      "mnemonic": "KIL",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": null,
+      "stability": "halts",
+      "function": "hangs the processor until reset"
+    },
+    {
+      "opcode": "13",
+      "mnemonic": "SLO",
+      "mode": "indirect_indexed",
+      "operand": "(<zp>),Y",
+      "bytes": 2,
+      "cycles": "8",
+      "stability": "stable",
+      "function": "{adr}:={adr}*2 A:=A or {adr}"
+    },
+    {
+      "opcode": "14",
+      "mnemonic": "NOP",
+      "mode": "zero_page_x",
+      "operand": "<zp>,X",
+      "bytes": 2,
+      "cycles": "4",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "17",
+      "mnemonic": "SLO",
+      "mode": "zero_page_x",
+      "operand": "<zp>,X",
+      "bytes": 2,
+      "cycles": "6",
+      "stability": "stable",
+      "function": "{adr}:={adr}*2 A:=A or {adr}"
+    },
+    {
+      "opcode": "1A",
+      "mnemonic": "NOP",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "1B",
+      "mnemonic": "SLO",
+      "mode": "absolute_y",
+      "operand": "<abs16>,Y",
+      "bytes": 3,
+      "cycles": "7",
+      "stability": "stable",
+      "function": "{adr}:={adr}*2 A:=A or {adr}"
+    },
+    {
+      "opcode": "1C",
+      "mnemonic": "NOP",
+      "mode": "absolute_x",
+      "operand": "<abs16>,X",
+      "bytes": 3,
+      "cycles": "4*",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "1F",
+      "mnemonic": "SLO",
+      "mode": "absolute_x",
+      "operand": "<abs16>,X",
+      "bytes": 3,
+      "cycles": "7",
+      "stability": "stable",
+      "function": "{adr}:={adr}*2 A:=A or {adr}"
+    },
+    {
+      "opcode": "22",
+      "mnemonic": "KIL",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": null,
+      "stability": "halts",
+      "function": "hangs the processor until reset"
+    },
+    {
+      "opcode": "23",
+      "mnemonic": "RLA",
+      "mode": "indexed_indirect",
+      "operand": "(<zp>,X)",
+      "bytes": 2,
+      "cycles": "8",
+      "stability": "stable",
+      "function": "{adr}:={adr}rol A:=A and {adr}"
+    },
+    {
+      "opcode": "27",
+      "mnemonic": "RLA",
+      "mode": "zero_page",
+      "operand": "<zp>",
+      "bytes": 2,
+      "cycles": "5",
+      "stability": "stable",
+      "function": "{adr}:={adr}rol A:=A and {adr}"
+    },
+    {
+      "opcode": "2B",
+      "mnemonic": "ANC",
+      "mode": "immediate",
+      "operand": "#<imm8>",
+      "bytes": 2,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "A:=A&#{imm}"
+    },
+    {
+      "opcode": "2F",
+      "mnemonic": "RLA",
+      "mode": "absolute",
+      "operand": "<abs16>",
+      "bytes": 3,
+      "cycles": "6",
+      "stability": "stable",
+      "function": "{adr}:={adr}rol A:=A and {adr}"
+    },
+    {
+      "opcode": "32",
+      "mnemonic": "KIL",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": null,
+      "stability": "halts",
+      "function": "hangs the processor until reset"
+    },
+    {
+      "opcode": "33",
+      "mnemonic": "RLA",
+      "mode": "indirect_indexed",
+      "operand": "(<zp>),Y",
+      "bytes": 2,
+      "cycles": "8",
+      "stability": "stable",
+      "function": "{adr}:={adr}rol A:=A and {adr}"
+    },
+    {
+      "opcode": "34",
+      "mnemonic": "NOP",
+      "mode": "zero_page_x",
+      "operand": "<zp>,X",
+      "bytes": 2,
+      "cycles": "4",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "37",
+      "mnemonic": "RLA",
+      "mode": "zero_page_x",
+      "operand": "<zp>,X",
+      "bytes": 2,
+      "cycles": "6",
+      "stability": "stable",
+      "function": "{adr}:={adr}rol A:=A and {adr}"
+    },
+    {
+      "opcode": "3A",
+      "mnemonic": "NOP",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "3B",
+      "mnemonic": "RLA",
+      "mode": "absolute_y",
+      "operand": "<abs16>,Y",
+      "bytes": 3,
+      "cycles": "7",
+      "stability": "stable",
+      "function": "{adr}:={adr}rol A:=A and {adr}"
+    },
+    {
+      "opcode": "3C",
+      "mnemonic": "NOP",
+      "mode": "absolute_x",
+      "operand": "<abs16>,X",
+      "bytes": 3,
+      "cycles": "4*",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "3F",
+      "mnemonic": "RLA",
+      "mode": "absolute_x",
+      "operand": "<abs16>,X",
+      "bytes": 3,
+      "cycles": "7",
+      "stability": "stable",
+      "function": "{adr}:={adr}rol A:=A and {adr}"
+    },
+    {
+      "opcode": "42",
+      "mnemonic": "KIL",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": null,
+      "stability": "halts",
+      "function": "hangs the processor until reset"
+    },
+    {
+      "opcode": "43",
+      "mnemonic": "SRE",
+      "mode": "indexed_indirect",
+      "operand": "(<zp>,X)",
+      "bytes": 2,
+      "cycles": "8",
+      "stability": "stable",
+      "function": "{adr}:={adr}/2 A:=A exor {adr}"
+    },
+    {
+      "opcode": "44",
+      "mnemonic": "NOP",
+      "mode": "zero_page",
+      "operand": "<zp>",
+      "bytes": 2,
+      "cycles": "3",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "47",
+      "mnemonic": "SRE",
+      "mode": "zero_page",
+      "operand": "<zp>",
+      "bytes": 2,
+      "cycles": "5",
+      "stability": "stable",
+      "function": "{adr}:={adr}/2 A:=A exor {adr}"
+    },
+    {
+      "opcode": "4B",
+      "mnemonic": "ALR",
+      "mode": "immediate",
+      "operand": "#<imm8>",
+      "bytes": 2,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "A:=(A&#{imm})/2"
+    },
+    {
+      "opcode": "4F",
+      "mnemonic": "SRE",
+      "mode": "absolute",
+      "operand": "<abs16>",
+      "bytes": 3,
+      "cycles": "6",
+      "stability": "stable",
+      "function": "{adr}:={adr}/2 A:=A exor {adr}"
+    },
+    {
+      "opcode": "52",
+      "mnemonic": "KIL",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": null,
+      "stability": "halts",
+      "function": "hangs the processor until reset"
+    },
+    {
+      "opcode": "53",
+      "mnemonic": "SRE",
+      "mode": "indirect_indexed",
+      "operand": "(<zp>),Y",
+      "bytes": 2,
+      "cycles": "8",
+      "stability": "stable",
+      "function": "{adr}:={adr}/2 A:=A exor {adr}"
+    },
+    {
+      "opcode": "54",
+      "mnemonic": "NOP",
+      "mode": "zero_page_x",
+      "operand": "<zp>,X",
+      "bytes": 2,
+      "cycles": "4",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "57",
+      "mnemonic": "SRE",
+      "mode": "zero_page_x",
+      "operand": "<zp>,X",
+      "bytes": 2,
+      "cycles": "6",
+      "stability": "stable",
+      "function": "{adr}:={adr}/2 A:=A exor {adr}"
+    },
+    {
+      "opcode": "5A",
+      "mnemonic": "NOP",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "5B",
+      "mnemonic": "SRE",
+      "mode": "absolute_y",
+      "operand": "<abs16>,Y",
+      "bytes": 3,
+      "cycles": "7",
+      "stability": "stable",
+      "function": "{adr}:={adr}/2 A:=A exor {adr}"
+    },
+    {
+      "opcode": "5C",
+      "mnemonic": "NOP",
+      "mode": "absolute_x",
+      "operand": "<abs16>,X",
+      "bytes": 3,
+      "cycles": "4*",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "5F",
+      "mnemonic": "SRE",
+      "mode": "absolute_x",
+      "operand": "<abs16>,X",
+      "bytes": 3,
+      "cycles": "7",
+      "stability": "stable",
+      "function": "{adr}:={adr}/2 A:=A exor {adr}"
+    },
+    {
+      "opcode": "62",
+      "mnemonic": "KIL",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": null,
+      "stability": "halts",
+      "function": "hangs the processor until reset"
+    },
+    {
+      "opcode": "63",
+      "mnemonic": "RRA",
+      "mode": "indexed_indirect",
+      "operand": "(<zp>,X)",
+      "bytes": 2,
+      "cycles": "8",
+      "stability": "stable",
+      "function": "{adr}:={adr}ror A:=A adc {adr}"
+    },
+    {
+      "opcode": "64",
+      "mnemonic": "NOP",
+      "mode": "zero_page",
+      "operand": "<zp>",
+      "bytes": 2,
+      "cycles": "3",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "67",
+      "mnemonic": "RRA",
+      "mode": "zero_page",
+      "operand": "<zp>",
+      "bytes": 2,
+      "cycles": "5",
+      "stability": "stable",
+      "function": "{adr}:={adr}ror A:=A adc {adr}"
+    },
+    {
+      "opcode": "6B",
+      "mnemonic": "ARR",
+      "mode": "immediate",
+      "operand": "#<imm8>",
+      "bytes": 2,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "A:=(A&#{imm})/2"
+    },
+    {
+      "opcode": "6F",
+      "mnemonic": "RRA",
+      "mode": "absolute",
+      "operand": "<abs16>",
+      "bytes": 3,
+      "cycles": "6",
+      "stability": "stable",
+      "function": "{adr}:={adr}ror A:=A adc {adr}"
+    },
+    {
+      "opcode": "72",
+      "mnemonic": "KIL",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": null,
+      "stability": "halts",
+      "function": "hangs the processor until reset"
+    },
+    {
+      "opcode": "73",
+      "mnemonic": "RRA",
+      "mode": "indirect_indexed",
+      "operand": "(<zp>),Y",
+      "bytes": 2,
+      "cycles": "8",
+      "stability": "stable",
+      "function": "{adr}:={adr}ror A:=A adc {adr}"
+    },
+    {
+      "opcode": "74",
+      "mnemonic": "NOP",
+      "mode": "zero_page_x",
+      "operand": "<zp>,X",
+      "bytes": 2,
+      "cycles": "4",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "77",
+      "mnemonic": "RRA",
+      "mode": "zero_page_x",
+      "operand": "<zp>,X",
+      "bytes": 2,
+      "cycles": "6",
+      "stability": "stable",
+      "function": "{adr}:={adr}ror A:=A adc {adr}"
+    },
+    {
+      "opcode": "7A",
+      "mnemonic": "NOP",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "7B",
+      "mnemonic": "RRA",
+      "mode": "absolute_y",
+      "operand": "<abs16>,Y",
+      "bytes": 3,
+      "cycles": "7",
+      "stability": "stable",
+      "function": "{adr}:={adr}ror A:=A adc {adr}"
+    },
+    {
+      "opcode": "7C",
+      "mnemonic": "NOP",
+      "mode": "absolute_x",
+      "operand": "<abs16>,X",
+      "bytes": 3,
+      "cycles": "4*",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "7F",
+      "mnemonic": "RRA",
+      "mode": "absolute_x",
+      "operand": "<abs16>,X",
+      "bytes": 3,
+      "cycles": "7",
+      "stability": "stable",
+      "function": "{adr}:={adr}ror A:=A adc {adr}"
+    },
+    {
+      "opcode": "80",
+      "mnemonic": "NOP",
+      "mode": "immediate",
+      "operand": "#<imm8>",
+      "bytes": 2,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "82",
+      "mnemonic": "NOP",
+      "mode": "immediate",
+      "operand": "#<imm8>",
+      "bytes": 2,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "83",
+      "mnemonic": "SAX",
+      "mode": "indexed_indirect",
+      "operand": "(<zp>,X)",
+      "bytes": 2,
+      "cycles": "6",
+      "stability": "stable",
+      "function": "{adr}:=A&X"
+    },
+    {
+      "opcode": "87",
+      "mnemonic": "SAX",
+      "mode": "zero_page",
+      "operand": "<zp>",
+      "bytes": 2,
+      "cycles": "3",
+      "stability": "stable",
+      "function": "{adr}:=A&X"
+    },
+    {
+      "opcode": "89",
+      "mnemonic": "NOP",
+      "mode": "immediate",
+      "operand": "#<imm8>",
+      "bytes": 2,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "8B",
+      "mnemonic": "XAA",
+      "mode": "immediate",
+      "operand": "#<imm8>",
+      "bytes": 2,
+      "cycles": "2",
+      "stability": "highly_unstable",
+      "function": "A:=X&#{imm}"
+    },
+    {
+      "opcode": "8F",
+      "mnemonic": "SAX",
+      "mode": "absolute",
+      "operand": "<abs16>",
+      "bytes": 3,
+      "cycles": "4",
+      "stability": "stable",
+      "function": "{adr}:=A&X"
+    },
+    {
+      "opcode": "92",
+      "mnemonic": "KIL",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": null,
+      "stability": "halts",
+      "function": "hangs the processor until reset"
+    },
+    {
+      "opcode": "93",
+      "mnemonic": "AHX",
+      "mode": "indirect_indexed",
+      "operand": "(<zp>),Y",
+      "bytes": 2,
+      "cycles": "6",
+      "stability": "unstable",
+      "function": "{adr}:=A&X&H"
+    },
+    {
+      "opcode": "97",
+      "mnemonic": "SAX",
+      "mode": "zero_page_y",
+      "operand": "<zp>,Y",
+      "bytes": 2,
+      "cycles": "4",
+      "stability": "stable",
+      "function": "{adr}:=A&X"
+    },
+    {
+      "opcode": "9B",
+      "mnemonic": "TAS",
+      "mode": "absolute_y",
+      "operand": "<abs16>,Y",
+      "bytes": 3,
+      "cycles": "5",
+      "stability": "unstable",
+      "function": "S:=A&X {adr}:=S&H"
+    },
+    {
+      "opcode": "9C",
+      "mnemonic": "SHY",
+      "mode": "absolute_x",
+      "operand": "<abs16>,X",
+      "bytes": 3,
+      "cycles": "5",
+      "stability": "unstable",
+      "function": "{adr}:=Y&H"
+    },
+    {
+      "opcode": "9E",
+      "mnemonic": "SHX",
+      "mode": "absolute_y",
+      "operand": "<abs16>,Y",
+      "bytes": 3,
+      "cycles": "5",
+      "stability": "unstable",
+      "function": "{adr}:=X&H"
+    },
+    {
+      "opcode": "9F",
+      "mnemonic": "AHX",
+      "mode": "absolute_y",
+      "operand": "<abs16>,Y",
+      "bytes": 3,
+      "cycles": "5",
+      "stability": "unstable",
+      "function": "{adr}:=A&X&H"
+    },
+    {
+      "opcode": "A3",
+      "mnemonic": "LAX",
+      "mode": "indexed_indirect",
+      "operand": "(<zp>,X)",
+      "bytes": 2,
+      "cycles": "6",
+      "stability": "stable",
+      "function": "A,X:={adr}"
+    },
+    {
+      "opcode": "A7",
+      "mnemonic": "LAX",
+      "mode": "zero_page",
+      "operand": "<zp>",
+      "bytes": 2,
+      "cycles": "3",
+      "stability": "stable",
+      "function": "A,X:={adr}"
+    },
+    {
+      "opcode": "AB",
+      "mnemonic": "LAX",
+      "mode": "immediate",
+      "operand": "#<imm8>",
+      "bytes": 2,
+      "cycles": "2",
+      "stability": "highly_unstable",
+      "function": "A,X:={adr}"
+    },
+    {
+      "opcode": "AF",
+      "mnemonic": "LAX",
+      "mode": "absolute",
+      "operand": "<abs16>",
+      "bytes": 3,
+      "cycles": "4",
+      "stability": "stable",
+      "function": "A,X:={adr}"
+    },
+    {
+      "opcode": "B2",
+      "mnemonic": "KIL",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": null,
+      "stability": "halts",
+      "function": "hangs the processor until reset"
+    },
+    {
+      "opcode": "B3",
+      "mnemonic": "LAX",
+      "mode": "indirect_indexed",
+      "operand": "(<zp>),Y",
+      "bytes": 2,
+      "cycles": "5*",
+      "stability": "stable",
+      "function": "A,X:={adr}"
+    },
+    {
+      "opcode": "B7",
+      "mnemonic": "LAX",
+      "mode": "zero_page_y",
+      "operand": "<zp>,Y",
+      "bytes": 2,
+      "cycles": "4",
+      "stability": "stable",
+      "function": "A,X:={adr}"
+    },
+    {
+      "opcode": "BB",
+      "mnemonic": "LAS",
+      "mode": "absolute_y",
+      "operand": "<abs16>,Y",
+      "bytes": 3,
+      "cycles": "4*",
+      "stability": "stable",
+      "function": "A,X,S:={adr}&S"
+    },
+    {
+      "opcode": "BF",
+      "mnemonic": "LAX",
+      "mode": "absolute_y",
+      "operand": "<abs16>,Y",
+      "bytes": 3,
+      "cycles": "4*",
+      "stability": "stable",
+      "function": "A,X:={adr}"
+    },
+    {
+      "opcode": "C2",
+      "mnemonic": "NOP",
+      "mode": "immediate",
+      "operand": "#<imm8>",
+      "bytes": 2,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "C3",
+      "mnemonic": "DCP",
+      "mode": "indexed_indirect",
+      "operand": "(<zp>,X)",
+      "bytes": 2,
+      "cycles": "8",
+      "stability": "stable",
+      "function": "{adr}:={adr}-1 A-{adr}"
+    },
+    {
+      "opcode": "C7",
+      "mnemonic": "DCP",
+      "mode": "zero_page",
+      "operand": "<zp>",
+      "bytes": 2,
+      "cycles": "5",
+      "stability": "stable",
+      "function": "{adr}:={adr}-1 A-{adr}"
+    },
+    {
+      "opcode": "CB",
+      "mnemonic": "AXS",
+      "mode": "immediate",
+      "operand": "#<imm8>",
+      "bytes": 2,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "X:=A&X-#{imm}"
+    },
+    {
+      "opcode": "CF",
+      "mnemonic": "DCP",
+      "mode": "absolute",
+      "operand": "<abs16>",
+      "bytes": 3,
+      "cycles": "6",
+      "stability": "stable",
+      "function": "{adr}:={adr}-1 A-{adr}"
+    },
+    {
+      "opcode": "D2",
+      "mnemonic": "KIL",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": null,
+      "stability": "halts",
+      "function": "hangs the processor until reset"
+    },
+    {
+      "opcode": "D3",
+      "mnemonic": "DCP",
+      "mode": "indirect_indexed",
+      "operand": "(<zp>),Y",
+      "bytes": 2,
+      "cycles": "8",
+      "stability": "stable",
+      "function": "{adr}:={adr}-1 A-{adr}"
+    },
+    {
+      "opcode": "D4",
+      "mnemonic": "NOP",
+      "mode": "zero_page_x",
+      "operand": "<zp>,X",
+      "bytes": 2,
+      "cycles": "4",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "D7",
+      "mnemonic": "DCP",
+      "mode": "zero_page_x",
+      "operand": "<zp>,X",
+      "bytes": 2,
+      "cycles": "6",
+      "stability": "stable",
+      "function": "{adr}:={adr}-1 A-{adr}"
+    },
+    {
+      "opcode": "DA",
+      "mnemonic": "NOP",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "DB",
+      "mnemonic": "DCP",
+      "mode": "absolute_y",
+      "operand": "<abs16>,Y",
+      "bytes": 3,
+      "cycles": "7",
+      "stability": "stable",
+      "function": "{adr}:={adr}-1 A-{adr}"
+    },
+    {
+      "opcode": "DC",
+      "mnemonic": "NOP",
+      "mode": "absolute_x",
+      "operand": "<abs16>,X",
+      "bytes": 3,
+      "cycles": "4*",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "DF",
+      "mnemonic": "DCP",
+      "mode": "absolute_x",
+      "operand": "<abs16>,X",
+      "bytes": 3,
+      "cycles": "7",
+      "stability": "stable",
+      "function": "{adr}:={adr}-1 A-{adr}"
+    },
+    {
+      "opcode": "E2",
+      "mnemonic": "NOP",
+      "mode": "immediate",
+      "operand": "#<imm8>",
+      "bytes": 2,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "E3",
+      "mnemonic": "ISC",
+      "mode": "indexed_indirect",
+      "operand": "(<zp>,X)",
+      "bytes": 2,
+      "cycles": "8",
+      "stability": "stable",
+      "function": "{adr}:={adr}+1 A:=A-{adr}"
+    },
+    {
+      "opcode": "E7",
+      "mnemonic": "ISC",
+      "mode": "zero_page",
+      "operand": "<zp>",
+      "bytes": 2,
+      "cycles": "5",
+      "stability": "stable",
+      "function": "{adr}:={adr}+1 A:=A-{adr}"
+    },
+    {
+      "opcode": "EB",
+      "mnemonic": "SBC",
+      "mode": "immediate",
+      "operand": "#<imm8>",
+      "bytes": 2,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "A:=A-#{imm}"
+    },
+    {
+      "opcode": "EF",
+      "mnemonic": "ISC",
+      "mode": "absolute",
+      "operand": "<abs16>",
+      "bytes": 3,
+      "cycles": "6",
+      "stability": "stable",
+      "function": "{adr}:={adr}+1 A:=A-{adr}"
+    },
+    {
+      "opcode": "F2",
+      "mnemonic": "KIL",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": null,
+      "stability": "halts",
+      "function": "hangs the processor until reset"
+    },
+    {
+      "opcode": "F3",
+      "mnemonic": "ISC",
+      "mode": "indirect_indexed",
+      "operand": "(<zp>),Y",
+      "bytes": 2,
+      "cycles": "8",
+      "stability": "stable",
+      "function": "{adr}:={adr}+1 A:=A-{adr}"
+    },
+    {
+      "opcode": "F4",
+      "mnemonic": "NOP",
+      "mode": "zero_page_x",
+      "operand": "<zp>,X",
+      "bytes": 2,
+      "cycles": "4",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "F7",
+      "mnemonic": "ISC",
+      "mode": "zero_page_x",
+      "operand": "<zp>,X",
+      "bytes": 2,
+      "cycles": "6",
+      "stability": "stable",
+      "function": "{adr}:={adr}+1 A:=A-{adr}"
+    },
+    {
+      "opcode": "FA",
+      "mnemonic": "NOP",
+      "mode": "implicit",
+      "operand": "",
+      "bytes": 1,
+      "cycles": "2",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "FB",
+      "mnemonic": "ISC",
+      "mode": "absolute_y",
+      "operand": "<abs16>,Y",
+      "bytes": 3,
+      "cycles": "7",
+      "stability": "stable",
+      "function": "{adr}:={adr}+1 A:=A-{adr}"
+    },
+    {
+      "opcode": "FC",
+      "mnemonic": "NOP",
+      "mode": "absolute_x",
+      "operand": "<abs16>,X",
+      "bytes": 3,
+      "cycles": "4*",
+      "stability": "stable",
+      "function": "no operation"
+    },
+    {
+      "opcode": "FF",
+      "mnemonic": "ISC",
+      "mode": "absolute_x",
+      "operand": "<abs16>,X",
+      "bytes": 3,
+      "cycles": "7",
+      "stability": "stable",
+      "function": "{adr}:={adr}+1 A:=A-{adr}"
+    }
+  ]
+}

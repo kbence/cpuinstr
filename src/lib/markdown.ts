@@ -14,6 +14,8 @@ const MODE_LABEL: Record<string, string> = {
   indirect: 'indirect',
   indexed_indirect: '(indirect,X)',
   indirect_indexed: '(indirect),Y',
+  indirect_zero_page: '(indirect)',
+  absolute_indexed_indirect: '(absolute,X)',
 }
 
 export function modeLabel(name: string): string {
@@ -22,10 +24,21 @@ export function modeLabel(name: string): string {
 
 /** One expanded row as markdown, for pasting into notes or an issue. */
 export function instructionToMarkdown(instruction: Instruction, setName: string): string {
-  const rows = instruction.modes.map(
-    (m) =>
-      `| ${modeLabel(m.name)} | \`${instruction.mnemonic}${m.operand ? ` ${m.operand}` : ''}\` | \`$${m.opcode}\` | ${m.bytes} | ${m.cycles} |`,
-  )
+  // Only worth a Flags column when some mode diverges from the instruction.
+  const perMode = instruction.modes.some((m) => m.flags)
+  const rows = instruction.modes.map((m) => {
+    const cells = [
+      modeLabel(m.name),
+      `\`${instruction.mnemonic}${m.operand ? ` ${m.operand}` : ''}\``,
+      `\`$${m.opcode}\``,
+      String(m.bytes),
+      m.cycles,
+    ]
+    if (perMode) cells.push((m.flags ?? instruction.flags).join(' ') || 'none')
+    return `| ${cells.join(' | ')} |`
+  })
+  const head = ['Mode', 'Syntax', 'Opcode', 'Bytes', 'Cycles']
+  if (perMode) head.push('Flags')
   const parts = [
     `## ${instruction.mnemonic} — ${instruction.summary}`,
     '',
@@ -33,8 +46,8 @@ export function instructionToMarkdown(instruction: Instruction, setName: string)
     '',
     instruction.description,
     '',
-    '| Mode | Syntax | Opcode | Bytes | Cycles |',
-    '|---|---|---|---|---|',
+    `| ${head.join(' | ')} |`,
+    `|${head.map(() => '---|').join('')}`,
     ...rows,
   ]
   if (instruction.examples.length > 0) {

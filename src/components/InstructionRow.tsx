@@ -62,6 +62,8 @@ export function InstructionRow({ instruction, setName }: Props) {
   const [open, setOpen] = useState(false)
   const [copyState, setCopyState] = useState<'idle' | 'copied' | 'failed'>('idle')
   const detailId = useId()
+  // Only worth a Flags column when some mode diverges from the instruction.
+  const perModeFlags = instruction.modes.some((m) => m.flags)
 
   async function copyMarkdown() {
     const md = instructionToMarkdown(instruction, setName)
@@ -111,6 +113,7 @@ export function InstructionRow({ instruction, setName }: Props) {
               <table className="modes">
                 <caption className="modes__caption">
                   Addressing modes · category <code>{instruction.category}</code>
+                  {perModeFlags && ' · this instruction’s flags differ by mode'}
                 </caption>
                 <thead>
                   <tr>
@@ -119,6 +122,7 @@ export function InstructionRow({ instruction, setName }: Props) {
                     <th scope="col">Opcode</th>
                     <th scope="col" className="num">Bytes</th>
                     <th scope="col">Cycles</th>
+                    {perModeFlags && <th scope="col">Flags</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -132,6 +136,11 @@ export function InstructionRow({ instruction, setName }: Props) {
                       <td className="mono">${m.opcode}</td>
                       <td className="num">{m.bytes}</td>
                       <td>{m.cycles}</td>
+                      {perModeFlags && (
+                        <td className={m.flags ? 'mono modes__flags--override' : 'mono'}>
+                          {(m.flags ?? instruction.flags).join(' ') || '—'}
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>

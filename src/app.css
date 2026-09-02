@@ -6,8 +6,25 @@
   --line: #e0dfdc;
   --accent: #2f5c8f;
   --hi: #f2f6fb;
+  --warn: #9a5b12;
+  --danger: #a3282b;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  color-scheme: light;
+  color-scheme: light dark;
+}
+
+/* Dark theme follows the OS. Only the tokens change — no component knows. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16181c;
+    --panel: #1d2025;
+    --ink: #e6e6e4;
+    --muted: #9a9a97;
+    --line: #333740;
+    --accent: #7bb0e8;
+    --hi: #232830;
+    --warn: #d9a05b;
+    --danger: #e2756f;
+  }
 }
 
 * { box-sizing: border-box; }
@@ -132,3 +149,54 @@ button:focus-visible, select:focus-visible, input:focus-visible {
 .detail__copy:hover { color: var(--ink); border-color: var(--accent); }
 .detail__copy[data-state='copied'] { color: var(--accent); border-color: var(--accent); }
 .detail__copy[data-state='failed'] { color: #a33; border-color: #a33; }
+
+/* a mode whose flags differ from the rest of the instruction (65C02 BIT #imm) */
+.modes__flags--override { color: var(--accent); font-weight: 600; }
+
+/* --- M3: compare panel --- */
+.compare { margin-bottom: 16px; }
+.compare__pick { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.compare__out {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 5px;
+  background: var(--panel);
+}
+.compare__counts { margin: 0 0 8px; font-size: 13px; }
+.compare__line { margin: 0 0 5px; font-size: 12.5px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.compare__tag {
+  flex: none;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+.compare__tag--add { color: var(--accent); border-color: var(--accent); }
+.compare__tag--gone { color: var(--warn); border-color: var(--warn); }
+.compare__changed { margin-top: 8px; font-size: 12.5px; }
+.compare__changed summary { cursor: pointer; color: var(--muted); }
+.compare__changed .modes { margin-top: 8px; }
+
+/* --- M3: undocumented-opcode appendix --- */
+.appendix { margin-top: 26px; border-top: 1px solid var(--line); padding-top: 14px; }
+.appendix > summary { cursor: pointer; font-size: 13px; font-weight: 600; }
+.appendix__warn { font-weight: 400; color: var(--warn); }
+.appendix__note { margin: 10px 0; font-size: 12.5px; color: var(--muted); max-width: 80ch; }
+.appendix__table { font-size: 12.5px; }
+.appendix__fn { color: var(--muted); white-space: nowrap; }
+.appendix__tag {
+  font-size: 10.5px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+  color: var(--muted);
+}
+.appendix__tag--unstable { color: var(--warn); border-color: var(--warn); }
+.appendix__tag--highly_unstable { color: var(--danger); border-color: var(--danger); font-weight: 600; }
+.appendix__tag--halts { color: var(--danger); border-color: var(--danger); }

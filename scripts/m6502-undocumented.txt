@@ -1,0 +1,138 @@
+# NMOS 6502 undocumented ('illegal') opcodes — the 105 of 256 MOS never documented.
+# Transcribed from http://www.oxyron.de/html/opcodes02.html: the shaded cells of its matrix,
+# plus that page's per-mnemonic function column and its per-opcode stability markers
+# (¹ 'unstable in certain matters' -> unstable; ² 'highly unstable, results are not
+# predictable on some machines' -> highly_unstable). Stability is per OPCODE, not per
+# mnemonic: LAX is stable from memory but highly unstable as LAX #imm ($AB).
+# READ-ONLY APPENDIX. Not part of the documented instruction set; behaviour is chip- and
+# batch-dependent, and the 12 KIL opcodes hang the processor until reset. Do not hand-edit.
+# opcode mnemonic mode cycles(- = none) stability
+
+02 KIL implicit - halts
+03 SLO indexed_indirect 8 stable
+04 NOP zero_page 3 stable
+07 SLO zero_page 5 stable
+0B ANC immediate 2 stable
+0C NOP absolute 4 stable
+0F SLO absolute 6 stable
+12 KIL implicit - halts
+13 SLO indirect_indexed 8 stable
+14 NOP zero_page_x 4 stable
+17 SLO zero_page_x 6 stable
+1A NOP implicit 2 stable
+1B SLO absolute_y 7 stable
+1C NOP absolute_x 4* stable
+1F SLO absolute_x 7 stable
+22 KIL implicit - halts
+23 RLA indexed_indirect 8 stable
+27 RLA zero_page 5 stable
+2B ANC immediate 2 stable
+2F RLA absolute 6 stable
+32 KIL implicit - halts
+33 RLA indirect_indexed 8 stable
+34 NOP zero_page_x 4 stable
+37 RLA zero_page_x 6 stable
+3A NOP implicit 2 stable
+3B RLA absolute_y 7 stable
+3C NOP absolute_x 4* stable
+3F RLA absolute_x 7 stable
+42 KIL implicit - halts
+43 SRE indexed_indirect 8 stable
+44 NOP zero_page 3 stable
+47 SRE zero_page 5 stable
+4B ALR immediate 2 stable
+4F SRE absolute 6 stable
+52 KIL implicit - halts
+53 SRE indirect_indexed 8 stable
+54 NOP zero_page_x 4 stable
+57 SRE zero_page_x 6 stable
+5A NOP implicit 2 stable
+5B SRE absolute_y 7 stable
+5C NOP absolute_x 4* stable
+5F SRE absolute_x 7 stable
+62 KIL implicit - halts
+63 RRA indexed_indirect 8 stable
+64 NOP zero_page 3 stable
+67 RRA zero_page 5 stable
+6B ARR immediate 2 stable
+6F RRA absolute 6 stable
+72 KIL implicit - halts
+73 RRA indirect_indexed 8 stable
+74 NOP zero_page_x 4 stable
+77 RRA zero_page_x 6 stable
+7A NOP implicit 2 stable
+7B RRA absolute_y 7 stable
+7C NOP absolute_x 4* stable
+7F RRA absolute_x 7 stable
+80 NOP immediate 2 stable
+82 NOP immediate 2 stable
+83 SAX indexed_indirect 6 stable
+87 SAX zero_page 3 stable
+89 NOP immediate 2 stable
+8B XAA immediate 2 highly_unstable
+8F SAX absolute 4 stable
+92 KIL implicit - halts
+93 AHX indirect_indexed 6 unstable
+97 SAX zero_page_y 4 stable
+9B TAS absolute_y 5 unstable
+9C SHY absolute_x 5 unstable
+9E SHX absolute_y 5 unstable
+9F AHX absolute_y 5 unstable
+A3 LAX indexed_indirect 6 stable
+A7 LAX zero_page 3 stable
+AB LAX immediate 2 highly_unstable
+AF LAX absolute 4 stable
+B2 KIL implicit - halts
+B3 LAX indirect_indexed 5* stable
+B7 LAX zero_page_y 4 stable
+BB LAS absolute_y 4* stable
+BF LAX absolute_y 4* stable
+C2 NOP immediate 2 stable
+C3 DCP indexed_indirect 8 stable
+C7 DCP zero_page 5 stable
+CB AXS immediate 2 stable
+CF DCP absolute 6 stable
+D2 KIL implicit - halts
+D3 DCP indirect_indexed 8 stable
+D4 NOP zero_page_x 4 stable
+D7 DCP zero_page_x 6 stable
+DA NOP implicit 2 stable
+DB DCP absolute_y 7 stable
+DC NOP absolute_x 4* stable
+DF DCP absolute_x 7 stable
+E2 NOP immediate 2 stable
+E3 ISC indexed_indirect 8 stable
+E7 ISC zero_page 5 stable
+EB SBC immediate 2 stable
+EF ISC absolute 6 stable
+F2 KIL implicit - halts
+F3 ISC indirect_indexed 8 stable
+F4 NOP zero_page_x 4 stable
+F7 ISC zero_page_x 6 stable
+FA NOP implicit 2 stable
+FB ISC absolute_y 7 stable
+FC NOP absolute_x 4* stable
+FF ISC absolute_x 7 stable
+
+# mnemonic function, verbatim from the same page
+@ AHX {adr}:=A&X&H
+@ ALR A:=(A&#{imm})/2
+@ ANC A:=A&#{imm}
+@ ARR A:=(A&#{imm})/2
+@ AXS X:=A&X-#{imm}
+@ DCP {adr}:={adr}-1 A-{adr}
+@ ISC {adr}:={adr}+1 A:=A-{adr}
+@ KIL hangs the processor until reset
+@ LAS A,X,S:={adr}&S
+@ LAX A,X:={adr}
+@ NOP no operation
+@ RLA {adr}:={adr}rol A:=A and {adr}
+@ RRA {adr}:={adr}ror A:=A adc {adr}
+@ SAX {adr}:=A&X
+@ SBC A:=A-#{imm}
+@ SHX {adr}:=X&H
+@ SHY {adr}:=Y&H
+@ SLO {adr}:={adr}*2 A:=A or {adr}
+@ SRE {adr}:={adr}/2 A:=A exor {adr}
+@ TAS S:=A&X {adr}:=S&H
+@ XAA A:=X&#{imm}

@@ -7,6 +7,8 @@ export type ModeName =
   | 'zero_page' | 'zero_page_x' | 'zero_page_y'
   | 'relative' | 'absolute' | 'absolute_x' | 'absolute_y'
   | 'indirect' | 'indexed_indirect' | 'indirect_indexed'
+  // 65C02 additions
+  | 'indirect_zero_page' | 'absolute_indexed_indirect'
 
 export interface Mode {
   readonly name: ModeName
@@ -16,6 +18,11 @@ export interface Mode {
   readonly bytes: number
   /** String, so page-crossing and branch notes survive: "4 (5 on page cross)". */
   readonly cycles: string
+  /**
+   * Set only when this mode's flags differ from the instruction's. The 65C02's
+   * `BIT #imm` is the one case in the family: it affects Z alone.
+   */
+  readonly flags?: readonly string[]
 }
 
 export interface Instruction {
@@ -50,4 +57,27 @@ export interface Architecture {
   readonly id: string
   readonly name: string
   readonly variants: readonly Variant[]
+}
+
+export type Stability = 'stable' | 'unstable' | 'highly_unstable' | 'halts'
+
+/** One undocumented opcode. Not an Instruction: no summary, no examples, no flags. */
+export interface UndocumentedOpcode {
+  readonly opcode: string
+  readonly mnemonic: string
+  readonly mode: ModeName
+  readonly operand: string
+  readonly bytes: number
+  /** null for the KIL opcodes, which never complete. */
+  readonly cycles: string | null
+  readonly stability: Stability
+  /** Operation summary, verbatim from the source. */
+  readonly function: string
+}
+
+export interface Appendix {
+  readonly set: string
+  readonly note: string
+  readonly source?: string
+  readonly opcodes: readonly UndocumentedOpcode[]
 }

@@ -19,10 +19,10 @@
 - **Verified:** `?q=bit+6` restores the filter on load; typing writes `?q=%28%24nn%29%2CY`; copy fills the clipboard on a real click; the mnemonic column stays pinned at `scrollLeft` max on a 375px viewport.
 - Skipped: `sort` is deliberately not in the URL — it is a viewing preference, not part of what a link is sharing. Add it if that turns out to be wrong.
 
-## M3 — growth
+## M3 — growth (4 of 5 done)
 
-- [ ] **65C02** variant (adds `BRA`, `STZ`, `PHX`/`PHY`/`PLX`/`PLY`, `TRB`/`TSB`, `JMP (abs,X)`, extra `BIT` modes) to prove the variant picker — this is what introduces per-mode `flags` (`BIT #` sets only `Z`).
-- [ ] A second architecture end-to-end (Z80 or 6501/6510) to stretch the data model.
-- [ ] Undefined-opcode appendix (read-only).
-- [ ] Dark theme; optional real backend/API behind `catalog.ts` without touching components.
-- [ ] A tiny “compare two variants” toggle (opcodes present in A but not B).
+- [x] **65C02** variant — base CMOS part: **64 mnemonics, 178 opcodes**. Adds the 8 new mnemonics, `(zp)` on 8 instructions, `JMP (abs,X)`, `INC A`/`DEC A`, and 3 extra `BIT` modes. It did introduce per-mode `flags`, exactly as predicted: `BIT #imm` sets `Z` alone and is the only override in the family. The 34 WDC/Rockwell-only opcodes (`RMB`/`SMB`/`BBR`/`BBS`/`STP`/`WAI`) are excluded as vendor extensions, as are the 44 defined-as-NOP cells.
+- [ ] **A second architecture end-to-end — deferred, pending a target.** The 6510 would satisfy the checkbox and stretch nothing (identical instruction set to the 6502; the difference is an I/O port at $0000/$0001). The Z80 would genuinely stretch the model — `CB`/`ED`/`DD`/`FD` prefixes mean `modes[].opcode` becomes a multi-byte string and the "two uppercase hex digits" invariant has to move per-set — but it is a large authoring job. Choose the target from the survey in [07-candidate-sets.md](./07-candidate-sets.md) before starting.
+- [x] Undocumented-opcode appendix (read-only) — all **105** NMOS illegal opcodes with per-opcode stability from the source: 86 stable, 5 unstable, 2 highly unstable, 12 `KIL` that hang the CPU. Stability is per opcode, not per mnemonic: `LAX $A7` is stable, `LAX #imm $AB` is not.
+- [x] Dark theme — `prefers-color-scheme`, token swap only, no component changed and no JS. A real backend behind `catalog.ts` is still available as a later swap (`loadSet`/`loadAppendix` are the only seams).
+- [x] “Compare two variants” toggle — opcode-keyed diff (added / removed / changed with the differing fields named), and the table filters to the affected mnemonics. 65C02 vs 6502 reports 27 added, 0 removed, 5 changed, 24 mnemonics touched.

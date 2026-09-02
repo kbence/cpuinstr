@@ -4,7 +4,16 @@ A browsable database of CPU instruction sets. Pick an architecture and variant,
 then filter and inspect every instruction with its addressing modes, opcodes,
 byte lengths, cycle counts and flag effects.
 
-The demo dataset is the complete NMOS 6502: **56 mnemonics, 151 documented opcodes**.
+Two variants ship today, both under the MOS 6502 architecture:
+
+| Variant | Mnemonics | Opcodes |
+|---|---|---|
+| NMOS **6502** (1975) | 56 | 151 documented |
+| base CMOS **65C02** (1983) | 64 | 178 documented |
+
+Plus a read-only appendix of the **105 undocumented NMOS opcodes**, with per-opcode
+stability (86 stable, 5 unstable, 2 highly unstable, 12 that hang the CPU), and a
+compare view that diffs two variants opcode by opcode.
 
 ```bash
 npm install
@@ -20,19 +29,35 @@ npm run dev
 
 ## Data provenance
 
-The 6502 dataset is **not** written from memory. `scripts/m6502-opcodes.txt` is a
-transcription of the [oxyron.de opcode matrix](http://www.oxyron.de/html/opcodes02.html),
-cross-checked opcode-for-opcode against that page's own per-mnemonic tables and
-against the [masswerk 6502 instruction set](https://www.masswerk.at/6502/6502_instruction_set.html).
+No dataset here is written from memory. Each one is generated from a committed
+transcription of a cited source, and the `scripts/*.txt` files carry their
+provenance in their own headers.
+
+| Dataset | Transcribed from | Cross-checked against |
+|---|---|---|
+| 6502 | [oxyron.de opcode matrix](http://www.oxyron.de/html/opcodes02.html) | that page's own per-mnemonic tables + [masswerk](https://www.masswerk.at/6502/6502_instruction_set.html) |
+| 65C02 | [oxyron.de 65C02 matrix](https://www.oxyron.de/html/opcodesc02.html) | [6502.org 65C02 opcodes](https://6502.org/tutorials/65c02opcodes.html) |
+| Undocumented | the shaded cells of the same 6502 matrix | that page's function column + per-opcode stability markers |
+
 Cycle penalties and decimal-mode flag behaviour were verified against
 [6502.org](http://www.6502.org/tutorials/decimal_mode.html).
 
-`scripts/build-m6502.mjs` derives `bytes` and `operand` from each addressing mode
-so they cannot drift, and refuses to emit unless it counts exactly 56 mnemonics
-and 151 opcodes. `src/lib/dataset.test.ts` pins the externally-verified facts —
-including that indexed *stores* never take a page-crossing penalty, that
-read-modify-write `absolute,X` is a flat 7 cycles, and that no instruction
-claims to affect the `B` bit, which is not a real register flag.
+`scripts/build-sets.mjs` derives `bytes` and `operand` from each addressing mode
+so they cannot drift, and refuses to emit unless the counts match exactly
+(56/151 and 64/178). The test suite pins the externally-verified facts that are
+easy to get wrong:
+
+- indexed **stores** never take a page-crossing penalty; the address fixup is always paid
+- read-modify-write `absolute,X` is a flat 7 cycles on NMOS, 6+1 on CMOS
+- `BIT` sets `N` from bit 7 and `V` from bit 6 — on both parts
+- decimal mode leaves `N`/`V`/`Z` **invalid** on NMOS, valid on CMOS
+- `BIT #imm` on the 65C02 affects `Z` alone — the family's only per-mode flag divergence
+- no instruction claims to affect the `B` bit, which is not a real register flag
+
+## Deployment
+
+Not deployed yet. `plan/08-deploy.md` covers the options — note that GitHub Pages
+cannot publish from a private repo on the Free plan.
 
 ## Plan
 

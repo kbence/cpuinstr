@@ -14,6 +14,7 @@ const MODE_BYTES: Record<ModeName, number> = {
   implicit: 1, accumulator: 1, immediate: 2, zero_page: 2, zero_page_x: 2,
   zero_page_y: 2, relative: 2, absolute: 3, absolute_x: 3, absolute_y: 3,
   indirect: 3, indexed_indirect: 2, indirect_indexed: 2,
+  indirect_zero_page: 2, absolute_indexed_indirect: 3,
 }
 
 describe('m6502 dataset invariants', () => {
@@ -191,5 +192,15 @@ describe('m6502 facts verified against external sources', () => {
 
   it('declares the 6502 status register layout', () => {
     expect(m6502.flagBits).toBe('NV-BDIZC')
+  })
+
+  it('has no CMOS-only modes and no per-mode flag overrides', () => {
+    for (const i of m6502.instructions) {
+      for (const m of i.modes) {
+        expect(m.name).not.toBe('indirect_zero_page')
+        expect(m.name).not.toBe('absolute_indexed_indirect')
+        expect(m.flags).toBeUndefined()
+      }
+    }
   })
 })

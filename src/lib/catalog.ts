@@ -1,5 +1,5 @@
 import architecturesJson from '../data/architectures.json'
-import type { Architecture, InstructionSet, Variant } from './types'
+import type { Appendix, Architecture, InstructionSet, Variant } from './types'
 
 export const architectures = architecturesJson.architectures as readonly Architecture[]
 
@@ -13,6 +13,15 @@ export function loadSet(variant: Variant): InstructionSet {
   const mod = sets[key]
   if (!mod) throw new Error(`instruction set not found: ${variant.file}`)
   return mod.default
+}
+
+const appendices = import.meta.glob<{ default: Appendix }>('../data/undocumented/*.json', {
+  eager: true,
+})
+
+/** The undocumented-opcode appendix for a set, when one exists. */
+export function loadAppendix(setId: string): Appendix | null {
+  return appendices[`../data/undocumented/${setId}.json`]?.default ?? null
 }
 
 /** First architecture and its first variant — the preselected pair. */
