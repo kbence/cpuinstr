@@ -1,0 +1,1985 @@
+{
+  "set": "m6502",
+  "name": "6502 (1975)",
+  "flagBits": "NV-BDIZC",
+  "source": "Transcribed from http://www.oxyron.de/html/opcodes02.html and cross-checked against https://www.masswerk.at/6502/6502_instruction_set.html",
+  "instructions": [
+    {
+      "id": "m6502.adc",
+      "mnemonic": "ADC",
+      "aliases": [],
+      "category": "arithmetic",
+      "summary": "Add memory to the accumulator with carry.",
+      "description": "Adds the operand and the current carry flag to A and stores the result in A. Carry is read *in* before the addition and written *out* from the result, so chained ADCs form multi-byte addition. V is set when the signed result overflows (both inputs same sign, result the other). When the decimal flag D is set the result is computed in BCD; on the NMOS 6502 the N, V and Z flags are then invalid — Z does not reliably match the accumulator.",
+      "examples": [
+        "CLC\nADC #$01    ; A = A + 1",
+        "CLC\nADC $10\nADC $11    ; 16-bit add, low byte then high"
+      ],
+      "flags": [
+        "N",
+        "V",
+        "Z",
+        "C"
+      ],
+      "modes": [
+        {
+          "name": "indexed_indirect",
+          "opcode": "61",
+          "operand": "(<zp>,X)",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page",
+          "opcode": "65",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "immediate",
+          "opcode": "69",
+          "operand": "#<imm8>",
+          "bytes": 2,
+          "cycles": "2"
+        },
+        {
+          "name": "absolute",
+          "opcode": "6D",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        },
+        {
+          "name": "indirect_indexed",
+          "opcode": "71",
+          "operand": "(<zp>),Y",
+          "bytes": 2,
+          "cycles": "5 (6 on page cross)"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "75",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "4"
+        },
+        {
+          "name": "absolute_y",
+          "opcode": "79",
+          "operand": "<abs16>,Y",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "7D",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.and",
+      "mnemonic": "AND",
+      "aliases": [],
+      "category": "logic",
+      "summary": "Bitwise AND of memory into the accumulator.",
+      "description": "Replaces A with A AND the operand. Used to clear selected bits with a mask. N takes bit 7 of the result and Z is set when the result is zero; C and V are untouched.",
+      "examples": [
+        "AND #$0F    ; keep the low nibble"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "indexed_indirect",
+          "opcode": "21",
+          "operand": "(<zp>,X)",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page",
+          "opcode": "25",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "immediate",
+          "opcode": "29",
+          "operand": "#<imm8>",
+          "bytes": 2,
+          "cycles": "2"
+        },
+        {
+          "name": "absolute",
+          "opcode": "2D",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        },
+        {
+          "name": "indirect_indexed",
+          "opcode": "31",
+          "operand": "(<zp>),Y",
+          "bytes": 2,
+          "cycles": "5 (6 on page cross)"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "35",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "4"
+        },
+        {
+          "name": "absolute_y",
+          "opcode": "39",
+          "operand": "<abs16>,Y",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "3D",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.asl",
+      "mnemonic": "ASL",
+      "aliases": [],
+      "category": "shift",
+      "summary": "Shift left one bit, into carry.",
+      "description": "Shifts the operand left by one bit. Bit 7 moves into C and bit 0 becomes 0, so the operation is an unsigned multiply by two. Operates on A in accumulator mode, otherwise read-modify-write on memory.",
+      "examples": [
+        "ASL A       ; A = A * 2",
+        "ASL $10     ; double the byte at $10"
+      ],
+      "flags": [
+        "N",
+        "Z",
+        "C"
+      ],
+      "modes": [
+        {
+          "name": "zero_page",
+          "opcode": "06",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "5"
+        },
+        {
+          "name": "accumulator",
+          "opcode": "0A",
+          "operand": "A",
+          "bytes": 1,
+          "cycles": "2"
+        },
+        {
+          "name": "absolute",
+          "opcode": "0E",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "16",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "1E",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "7"
+        }
+      ]
+    },
+    {
+      "id": "m6502.bcc",
+      "mnemonic": "BCC",
+      "aliases": [],
+      "category": "branch",
+      "summary": "Branch if carry clear (C = 0).",
+      "description": "Adds the signed 8-bit offset to the program counter when C is clear. After CMP, this means \"less than\" for unsigned values. No flags change.",
+      "examples": [
+        "CMP #$10\nBCC lower   ; taken if A < $10"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "relative",
+          "opcode": "90",
+          "operand": "<label>",
+          "bytes": 2,
+          "cycles": "2 (3 if taken, 4 if taken across a page)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.bcs",
+      "mnemonic": "BCS",
+      "aliases": [],
+      "category": "branch",
+      "summary": "Branch if carry set (C = 1).",
+      "description": "Adds the signed 8-bit offset to the program counter when C is set. After CMP, this means \"greater than or equal\" for unsigned values. No flags change.",
+      "examples": [
+        "CMP #$10\nBCS higher  ; taken if A >= $10"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "relative",
+          "opcode": "B0",
+          "operand": "<label>",
+          "bytes": 2,
+          "cycles": "2 (3 if taken, 4 if taken across a page)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.beq",
+      "mnemonic": "BEQ",
+      "aliases": [],
+      "category": "branch",
+      "summary": "Branch if equal (Z = 1).",
+      "description": "Branches when the zero flag is set — typically after a comparison that matched, or an operation whose result was zero. No flags change.",
+      "examples": [
+        "CMP #$41\nBEQ isA"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "relative",
+          "opcode": "F0",
+          "operand": "<label>",
+          "bytes": 2,
+          "cycles": "2 (3 if taken, 4 if taken across a page)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.bit",
+      "mnemonic": "BIT",
+      "aliases": [],
+      "category": "logic",
+      "summary": "Test bits in memory against the accumulator.",
+      "description": "Sets Z from A AND the operand, but discards the result — A is not modified. Independently of A, N is loaded from bit 7 of the operand and V from bit 6, which makes BIT the usual way to poll two hardware status bits in one instruction. This is the same on the NMOS 6502 and the 65C02.",
+      "examples": [
+        "BIT $D011   ; N = bit 7, V = bit 6, Z = (A & value) == 0"
+      ],
+      "flags": [
+        "N",
+        "V",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "zero_page",
+          "opcode": "24",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "absolute",
+          "opcode": "2C",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        }
+      ]
+    },
+    {
+      "id": "m6502.bmi",
+      "mnemonic": "BMI",
+      "aliases": [],
+      "category": "branch",
+      "summary": "Branch if minus (N = 1).",
+      "description": "Branches when the negative flag is set, i.e. bit 7 of the last result was 1. No flags change.",
+      "examples": [
+        "BMI negative"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "relative",
+          "opcode": "30",
+          "operand": "<label>",
+          "bytes": 2,
+          "cycles": "2 (3 if taken, 4 if taken across a page)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.bne",
+      "mnemonic": "BNE",
+      "aliases": [],
+      "category": "branch",
+      "summary": "Branch if not equal (Z = 0).",
+      "description": "Branches when the zero flag is clear. The standard loop-again test after a DEX/DEY/INC. No flags change.",
+      "examples": [
+        "DEX\nBNE loop"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "relative",
+          "opcode": "D0",
+          "operand": "<label>",
+          "bytes": 2,
+          "cycles": "2 (3 if taken, 4 if taken across a page)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.bpl",
+      "mnemonic": "BPL",
+      "aliases": [],
+      "category": "branch",
+      "summary": "Branch if plus (N = 0).",
+      "description": "Branches when the negative flag is clear, i.e. bit 7 of the last result was 0. No flags change.",
+      "examples": [
+        "BPL positive"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "relative",
+          "opcode": "10",
+          "operand": "<label>",
+          "bytes": 2,
+          "cycles": "2 (3 if taken, 4 if taken across a page)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.brk",
+      "mnemonic": "BRK",
+      "aliases": [],
+      "category": "system",
+      "summary": "Force a software interrupt.",
+      "description": "Pushes the program counter (already incremented past the padding byte that follows BRK) and then the status byte, sets I to mask further IRQs, and jumps through the IRQ vector at $FFFE/$FFFF. The status byte is pushed with the break bit set, which is how an interrupt handler distinguishes BRK from a hardware IRQ — that bit is not a real register flag, so it is not listed under the affected flags here.",
+      "examples": [
+        "BRK\n.byte $00   ; BRK skips the following byte"
+      ],
+      "flags": [
+        "I"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "00",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "7"
+        }
+      ]
+    },
+    {
+      "id": "m6502.bvc",
+      "mnemonic": "BVC",
+      "aliases": [],
+      "category": "branch",
+      "summary": "Branch if overflow clear (V = 0).",
+      "description": "Branches when the overflow flag is clear. No flags change.",
+      "examples": [
+        "BVC noOverflow"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "relative",
+          "opcode": "50",
+          "operand": "<label>",
+          "bytes": 2,
+          "cycles": "2 (3 if taken, 4 if taken across a page)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.bvs",
+      "mnemonic": "BVS",
+      "aliases": [],
+      "category": "branch",
+      "summary": "Branch if overflow set (V = 1).",
+      "description": "Branches when the overflow flag is set — after signed arithmetic, or from the external SO pin. No flags change.",
+      "examples": [
+        "BVS overflowed"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "relative",
+          "opcode": "70",
+          "operand": "<label>",
+          "bytes": 2,
+          "cycles": "2 (3 if taken, 4 if taken across a page)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.clc",
+      "mnemonic": "CLC",
+      "aliases": [],
+      "category": "flag",
+      "summary": "Clear the carry flag.",
+      "description": "Sets C to 0. Required before the first ADC of an addition so no stale carry is added in.",
+      "examples": [
+        "CLC\nADC #$01"
+      ],
+      "flags": [
+        "C"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "18",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.cld",
+      "mnemonic": "CLD",
+      "aliases": [],
+      "category": "flag",
+      "summary": "Clear the decimal flag.",
+      "description": "Sets D to 0, so ADC and SBC compute in binary. D is not defined after reset, so well-behaved code clears it during startup.",
+      "examples": [
+        "CLD         ; binary arithmetic"
+      ],
+      "flags": [
+        "D"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "D8",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.cli",
+      "mnemonic": "CLI",
+      "aliases": [],
+      "category": "flag",
+      "summary": "Clear the interrupt disable flag.",
+      "description": "Sets I to 0, allowing maskable IRQs to be serviced again.",
+      "examples": [
+        "CLI         ; enable IRQs"
+      ],
+      "flags": [
+        "I"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "58",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.clv",
+      "mnemonic": "CLV",
+      "aliases": [],
+      "category": "flag",
+      "summary": "Clear the overflow flag.",
+      "description": "Sets V to 0. The only instruction that clears V directly; V is otherwise written by ADC, SBC, BIT, PLP and RTI, or by the SO pin.",
+      "examples": [
+        "CLV"
+      ],
+      "flags": [
+        "V"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "B8",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.cmp",
+      "mnemonic": "CMP",
+      "aliases": [],
+      "category": "arithmetic",
+      "summary": "Compare memory with the accumulator.",
+      "description": "Computes A minus the operand and sets the flags from the result, discarding it — A is unchanged. C is set when A is greater than or equal to the operand (unsigned), Z when they are equal, and N from bit 7 of the difference.",
+      "examples": [
+        "CMP #$80\nBCS atLeast80"
+      ],
+      "flags": [
+        "N",
+        "Z",
+        "C"
+      ],
+      "modes": [
+        {
+          "name": "indexed_indirect",
+          "opcode": "C1",
+          "operand": "(<zp>,X)",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page",
+          "opcode": "C5",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "immediate",
+          "opcode": "C9",
+          "operand": "#<imm8>",
+          "bytes": 2,
+          "cycles": "2"
+        },
+        {
+          "name": "absolute",
+          "opcode": "CD",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        },
+        {
+          "name": "indirect_indexed",
+          "opcode": "D1",
+          "operand": "(<zp>),Y",
+          "bytes": 2,
+          "cycles": "5 (6 on page cross)"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "D5",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "4"
+        },
+        {
+          "name": "absolute_y",
+          "opcode": "D9",
+          "operand": "<abs16>,Y",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "DD",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.cpx",
+      "mnemonic": "CPX",
+      "aliases": [],
+      "category": "arithmetic",
+      "summary": "Compare memory with the X register.",
+      "description": "Computes X minus the operand and sets N, Z and C from the result without storing it. Same flag rules as CMP.",
+      "examples": [
+        "CPX #$10\nBNE notTen"
+      ],
+      "flags": [
+        "N",
+        "Z",
+        "C"
+      ],
+      "modes": [
+        {
+          "name": "immediate",
+          "opcode": "E0",
+          "operand": "#<imm8>",
+          "bytes": 2,
+          "cycles": "2"
+        },
+        {
+          "name": "zero_page",
+          "opcode": "E4",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "absolute",
+          "opcode": "EC",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        }
+      ]
+    },
+    {
+      "id": "m6502.cpy",
+      "mnemonic": "CPY",
+      "aliases": [],
+      "category": "arithmetic",
+      "summary": "Compare memory with the Y register.",
+      "description": "Computes Y minus the operand and sets N, Z and C from the result without storing it. Same flag rules as CMP.",
+      "examples": [
+        "CPY #$28\nBCC inRange"
+      ],
+      "flags": [
+        "N",
+        "Z",
+        "C"
+      ],
+      "modes": [
+        {
+          "name": "immediate",
+          "opcode": "C0",
+          "operand": "#<imm8>",
+          "bytes": 2,
+          "cycles": "2"
+        },
+        {
+          "name": "zero_page",
+          "opcode": "C4",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "absolute",
+          "opcode": "CC",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        }
+      ]
+    },
+    {
+      "id": "m6502.dec",
+      "mnemonic": "DEC",
+      "aliases": [],
+      "category": "arithmetic",
+      "summary": "Decrement a memory location by one.",
+      "description": "Subtracts one from the addressed byte and writes it back, wrapping $00 to $FF. N and Z reflect the new value; C is untouched, so DEC cannot be used to detect the borrow.",
+      "examples": [
+        "DEC $10"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "zero_page",
+          "opcode": "C6",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "5"
+        },
+        {
+          "name": "absolute",
+          "opcode": "CE",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "D6",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "DE",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "7"
+        }
+      ]
+    },
+    {
+      "id": "m6502.dex",
+      "mnemonic": "DEX",
+      "aliases": [],
+      "category": "arithmetic",
+      "summary": "Decrement the X register by one.",
+      "description": "Subtracts one from X, wrapping $00 to $FF, and sets N and Z from the result. The usual countdown for a loop closed by BNE.",
+      "examples": [
+        "LDX #$08\nloop: DEX\nBNE loop"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "CA",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.dey",
+      "mnemonic": "DEY",
+      "aliases": [],
+      "category": "arithmetic",
+      "summary": "Decrement the Y register by one.",
+      "description": "Subtracts one from Y, wrapping $00 to $FF, and sets N and Z from the result.",
+      "examples": [
+        "DEY\nBPL loop"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "88",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.eor",
+      "mnemonic": "EOR",
+      "aliases": [],
+      "category": "logic",
+      "summary": "Bitwise exclusive-OR of memory into the accumulator.",
+      "description": "Replaces A with A XOR the operand — the standard way to flip selected bits, or to invert A entirely with EOR #$FF. N takes bit 7 of the result, Z is set when the result is zero.",
+      "examples": [
+        "EOR #$FF    ; one’s complement of A"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "indexed_indirect",
+          "opcode": "41",
+          "operand": "(<zp>,X)",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page",
+          "opcode": "45",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "immediate",
+          "opcode": "49",
+          "operand": "#<imm8>",
+          "bytes": 2,
+          "cycles": "2"
+        },
+        {
+          "name": "absolute",
+          "opcode": "4D",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        },
+        {
+          "name": "indirect_indexed",
+          "opcode": "51",
+          "operand": "(<zp>),Y",
+          "bytes": 2,
+          "cycles": "5 (6 on page cross)"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "55",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "4"
+        },
+        {
+          "name": "absolute_y",
+          "opcode": "59",
+          "operand": "<abs16>,Y",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "5D",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.inc",
+      "mnemonic": "INC",
+      "aliases": [],
+      "category": "arithmetic",
+      "summary": "Increment a memory location by one.",
+      "description": "Adds one to the addressed byte and writes it back, wrapping $FF to $00. N and Z reflect the new value; C is not affected.",
+      "examples": [
+        "INC $10"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "zero_page",
+          "opcode": "E6",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "5"
+        },
+        {
+          "name": "absolute",
+          "opcode": "EE",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "F6",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "FE",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "7"
+        }
+      ]
+    },
+    {
+      "id": "m6502.inx",
+      "mnemonic": "INX",
+      "aliases": [],
+      "category": "arithmetic",
+      "summary": "Increment the X register by one.",
+      "description": "Adds one to X, wrapping $FF to $00, and sets N and Z from the result.",
+      "examples": [
+        "INX\nCPX #$10\nBNE loop"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "E8",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.iny",
+      "mnemonic": "INY",
+      "aliases": [],
+      "category": "arithmetic",
+      "summary": "Increment the Y register by one.",
+      "description": "Adds one to Y, wrapping $FF to $00, and sets N and Z from the result.",
+      "examples": [
+        "INY"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "C8",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.jmp",
+      "mnemonic": "JMP",
+      "aliases": [],
+      "category": "jump",
+      "summary": "Jump to a new address.",
+      "description": "Loads the program counter with the target address. In indirect mode the target is read from the word stored at the given address. NMOS bug: if that address ends in $FF the high byte is fetched from the start of the same page rather than the next one — JMP ($12FF) reads its high byte from $1200. Fixed on the 65C02.",
+      "examples": [
+        "JMP $C000",
+        "JMP ($0300)  ; vectored jump"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "absolute",
+          "opcode": "4C",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "3"
+        },
+        {
+          "name": "indirect",
+          "opcode": "6C",
+          "operand": "(<abs16>)",
+          "bytes": 3,
+          "cycles": "5"
+        }
+      ]
+    },
+    {
+      "id": "m6502.jsr",
+      "mnemonic": "JSR",
+      "aliases": [],
+      "category": "jump",
+      "summary": "Jump to a subroutine.",
+      "description": "Pushes the address of the last byte of the JSR instruction onto the stack, high byte first, then loads the program counter with the target. RTS pops that address and adds one to resume. No flags change.",
+      "examples": [
+        "JSR init"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "absolute",
+          "opcode": "20",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "6"
+        }
+      ]
+    },
+    {
+      "id": "m6502.lda",
+      "mnemonic": "LDA",
+      "aliases": [],
+      "category": "load_store",
+      "summary": "Load a byte into the accumulator.",
+      "description": "Loads the operand into A, overwriting the previous value. N is taken from bit 7 of the loaded byte and Z is set when it is zero; no other flag changes.",
+      "examples": [
+        "LDA #$1A     ; load immediate 26",
+        "LDA ($08,X)  ; indexed indirect: pointer at $08+X in page 0",
+        "LDA ($08),Y  ; indirect indexed: pointer at $08, then +Y"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "indexed_indirect",
+          "opcode": "A1",
+          "operand": "(<zp>,X)",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page",
+          "opcode": "A5",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "immediate",
+          "opcode": "A9",
+          "operand": "#<imm8>",
+          "bytes": 2,
+          "cycles": "2"
+        },
+        {
+          "name": "absolute",
+          "opcode": "AD",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        },
+        {
+          "name": "indirect_indexed",
+          "opcode": "B1",
+          "operand": "(<zp>),Y",
+          "bytes": 2,
+          "cycles": "5 (6 on page cross)"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "B5",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "4"
+        },
+        {
+          "name": "absolute_y",
+          "opcode": "B9",
+          "operand": "<abs16>,Y",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "BD",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.ldx",
+      "mnemonic": "LDX",
+      "aliases": [],
+      "category": "load_store",
+      "summary": "Load a byte into the X index register.",
+      "description": "Loads the operand into X. N takes bit 7 of the loaded byte and Z is set when it is zero. LDX is one of only two instructions with a zero-page,Y mode.",
+      "examples": [
+        "LDX #$00",
+        "LDX $10,Y"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "immediate",
+          "opcode": "A2",
+          "operand": "#<imm8>",
+          "bytes": 2,
+          "cycles": "2"
+        },
+        {
+          "name": "zero_page",
+          "opcode": "A6",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "absolute",
+          "opcode": "AE",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        },
+        {
+          "name": "zero_page_y",
+          "opcode": "B6",
+          "operand": "<zp>,Y",
+          "bytes": 2,
+          "cycles": "4"
+        },
+        {
+          "name": "absolute_y",
+          "opcode": "BE",
+          "operand": "<abs16>,Y",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.ldy",
+      "mnemonic": "LDY",
+      "aliases": [],
+      "category": "load_store",
+      "summary": "Load a byte into the Y index register.",
+      "description": "Loads the operand into Y. N takes bit 7 of the loaded byte and Z is set when it is zero.",
+      "examples": [
+        "LDY #$FF"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "immediate",
+          "opcode": "A0",
+          "operand": "#<imm8>",
+          "bytes": 2,
+          "cycles": "2"
+        },
+        {
+          "name": "zero_page",
+          "opcode": "A4",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "absolute",
+          "opcode": "AC",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "B4",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "4"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "BC",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.lsr",
+      "mnemonic": "LSR",
+      "aliases": [],
+      "category": "shift",
+      "summary": "Shift right one bit, into carry.",
+      "description": "Shifts the operand right by one bit. Bit 0 moves into C and bit 7 becomes 0, so the operation is an unsigned divide by two. N is therefore always cleared.",
+      "examples": [
+        "LSR A       ; A = A / 2"
+      ],
+      "flags": [
+        "N",
+        "Z",
+        "C"
+      ],
+      "modes": [
+        {
+          "name": "zero_page",
+          "opcode": "46",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "5"
+        },
+        {
+          "name": "accumulator",
+          "opcode": "4A",
+          "operand": "A",
+          "bytes": 1,
+          "cycles": "2"
+        },
+        {
+          "name": "absolute",
+          "opcode": "4E",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "56",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "5E",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "7"
+        }
+      ]
+    },
+    {
+      "id": "m6502.nop",
+      "mnemonic": "NOP",
+      "aliases": [],
+      "category": "system",
+      "summary": "No operation.",
+      "description": "Does nothing for two cycles and affects no register or flag. Used as padding and for timing. Only $EA is the documented NOP; the other byte patterns that behave like one are undocumented opcodes and are out of scope here.",
+      "examples": [
+        "NOP"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "EA",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.ora",
+      "mnemonic": "ORA",
+      "aliases": [],
+      "category": "logic",
+      "summary": "Bitwise OR of memory into the accumulator.",
+      "description": "Replaces A with A OR the operand — the usual way to set selected bits with a mask. N takes bit 7 of the result, Z is set when the result is zero.",
+      "examples": [
+        "ORA #$80    ; force bit 7 on"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "indexed_indirect",
+          "opcode": "01",
+          "operand": "(<zp>,X)",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page",
+          "opcode": "05",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "immediate",
+          "opcode": "09",
+          "operand": "#<imm8>",
+          "bytes": 2,
+          "cycles": "2"
+        },
+        {
+          "name": "absolute",
+          "opcode": "0D",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        },
+        {
+          "name": "indirect_indexed",
+          "opcode": "11",
+          "operand": "(<zp>),Y",
+          "bytes": 2,
+          "cycles": "5 (6 on page cross)"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "15",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "4"
+        },
+        {
+          "name": "absolute_y",
+          "opcode": "19",
+          "operand": "<abs16>,Y",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "1D",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.pha",
+      "mnemonic": "PHA",
+      "aliases": [],
+      "category": "stack",
+      "summary": "Push the accumulator onto the stack.",
+      "description": "Writes A to the stack page ($0100 + S) and decrements the stack pointer. No flags change.",
+      "examples": [
+        "PHA"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "48",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "3"
+        }
+      ]
+    },
+    {
+      "id": "m6502.php",
+      "mnemonic": "PHP",
+      "aliases": [],
+      "category": "stack",
+      "summary": "Push the status register onto the stack.",
+      "description": "Writes the status byte to the stack and decrements the stack pointer. The break bit is pushed set, as with BRK; that bit exists only in the pushed byte, not in the register.",
+      "examples": [
+        "PHP\nPLA         ; read the flags into A"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "08",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "3"
+        }
+      ]
+    },
+    {
+      "id": "m6502.pla",
+      "mnemonic": "PLA",
+      "aliases": [],
+      "category": "stack",
+      "summary": "Pull the accumulator from the stack.",
+      "description": "Increments the stack pointer and loads A from the stack. N and Z are set from the pulled byte.",
+      "examples": [
+        "PLA"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "68",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "4"
+        }
+      ]
+    },
+    {
+      "id": "m6502.plp",
+      "mnemonic": "PLP",
+      "aliases": [],
+      "category": "stack",
+      "summary": "Pull the status register from the stack.",
+      "description": "Increments the stack pointer and restores every real flag — N, V, D, I, Z and C — from the pulled byte. The break bit in that byte has no register to be written to.",
+      "examples": [
+        "PHP\n; ...\nPLP         ; restore the flags"
+      ],
+      "flags": [
+        "N",
+        "V",
+        "D",
+        "I",
+        "Z",
+        "C"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "28",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "4"
+        }
+      ]
+    },
+    {
+      "id": "m6502.rol",
+      "mnemonic": "ROL",
+      "aliases": [],
+      "category": "shift",
+      "summary": "Rotate left one bit, through carry.",
+      "description": "Shifts the operand left by one bit; the old carry becomes bit 0 and the old bit 7 becomes the new carry. Nine bits rotate in total, so chained ROLs shift a multi-byte value left.",
+      "examples": [
+        "ROL A",
+        "ASL $10\nROL $11     ; 16-bit shift left"
+      ],
+      "flags": [
+        "N",
+        "Z",
+        "C"
+      ],
+      "modes": [
+        {
+          "name": "zero_page",
+          "opcode": "26",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "5"
+        },
+        {
+          "name": "accumulator",
+          "opcode": "2A",
+          "operand": "A",
+          "bytes": 1,
+          "cycles": "2"
+        },
+        {
+          "name": "absolute",
+          "opcode": "2E",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "36",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "3E",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "7"
+        }
+      ]
+    },
+    {
+      "id": "m6502.ror",
+      "mnemonic": "ROR",
+      "aliases": [],
+      "category": "shift",
+      "summary": "Rotate right one bit, through carry.",
+      "description": "Shifts the operand right by one bit; the old carry becomes bit 7 and the old bit 0 becomes the new carry. Chained RORs shift a multi-byte value right.",
+      "examples": [
+        "LSR $11\nROR $10     ; 16-bit shift right"
+      ],
+      "flags": [
+        "N",
+        "Z",
+        "C"
+      ],
+      "modes": [
+        {
+          "name": "zero_page",
+          "opcode": "66",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "5"
+        },
+        {
+          "name": "accumulator",
+          "opcode": "6A",
+          "operand": "A",
+          "bytes": 1,
+          "cycles": "2"
+        },
+        {
+          "name": "absolute",
+          "opcode": "6E",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "76",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "7E",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "7"
+        }
+      ]
+    },
+    {
+      "id": "m6502.rti",
+      "mnemonic": "RTI",
+      "aliases": [],
+      "category": "system",
+      "summary": "Return from an interrupt.",
+      "description": "Pulls the status byte and then the program counter from the stack, restoring N, V, D, I, Z and C. Unlike RTS it does not add one to the pulled address, because the interrupt sequence pushed the address to resume at.",
+      "examples": [
+        "RTI"
+      ],
+      "flags": [
+        "N",
+        "V",
+        "D",
+        "I",
+        "Z",
+        "C"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "40",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "6"
+        }
+      ]
+    },
+    {
+      "id": "m6502.rts",
+      "mnemonic": "RTS",
+      "aliases": [],
+      "category": "jump",
+      "summary": "Return from a subroutine.",
+      "description": "Pulls a two-byte address from the stack and resumes at that address plus one, matching what JSR pushed. No flags change.",
+      "examples": [
+        "RTS"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "60",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "6"
+        }
+      ]
+    },
+    {
+      "id": "m6502.sbc",
+      "mnemonic": "SBC",
+      "aliases": [],
+      "category": "arithmetic",
+      "summary": "Subtract memory from the accumulator with borrow.",
+      "description": "Computes A minus the operand minus the complement of the carry flag. Carry acts as not-borrow: with C set, SBC subtracts just the operand, so SEC precedes the first SBC of a subtraction. V is set on signed overflow. When the decimal flag D is set the result is computed in BCD; on the NMOS 6502 the N, V and Z flags are then invalid — Z does not reliably match the accumulator.",
+      "examples": [
+        "SEC\nSBC #$01    ; A = A - 1",
+        "SEC\nSBC $10\nSBC $11    ; 16-bit subtract"
+      ],
+      "flags": [
+        "N",
+        "V",
+        "Z",
+        "C"
+      ],
+      "modes": [
+        {
+          "name": "indexed_indirect",
+          "opcode": "E1",
+          "operand": "(<zp>,X)",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page",
+          "opcode": "E5",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "immediate",
+          "opcode": "E9",
+          "operand": "#<imm8>",
+          "bytes": 2,
+          "cycles": "2"
+        },
+        {
+          "name": "absolute",
+          "opcode": "ED",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        },
+        {
+          "name": "indirect_indexed",
+          "opcode": "F1",
+          "operand": "(<zp>),Y",
+          "bytes": 2,
+          "cycles": "5 (6 on page cross)"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "F5",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "4"
+        },
+        {
+          "name": "absolute_y",
+          "opcode": "F9",
+          "operand": "<abs16>,Y",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "FD",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "4 (5 on page cross)"
+        }
+      ]
+    },
+    {
+      "id": "m6502.sec",
+      "mnemonic": "SEC",
+      "aliases": [],
+      "category": "flag",
+      "summary": "Set the carry flag.",
+      "description": "Sets C to 1. Required before the first SBC of a subtraction, since carry is the not-borrow input.",
+      "examples": [
+        "SEC\nSBC #$01"
+      ],
+      "flags": [
+        "C"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "38",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.sed",
+      "mnemonic": "SED",
+      "aliases": [],
+      "category": "flag",
+      "summary": "Set the decimal flag.",
+      "description": "Sets D to 1, so ADC and SBC compute in BCD. On the NMOS 6502 the N, V and Z flags are unreliable while D is set.",
+      "examples": [
+        "SED\nCLC\nADC #$01    ; BCD increment"
+      ],
+      "flags": [
+        "D"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "F8",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.sei",
+      "mnemonic": "SEI",
+      "aliases": [],
+      "category": "flag",
+      "summary": "Set the interrupt disable flag.",
+      "description": "Sets I to 1, masking further IRQs. Does not mask the NMI line.",
+      "examples": [
+        "SEI         ; disable IRQs"
+      ],
+      "flags": [
+        "I"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "78",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.sta",
+      "mnemonic": "STA",
+      "aliases": [],
+      "category": "load_store",
+      "summary": "Store the accumulator into memory.",
+      "description": "Writes A to the addressed location. No flags change. Every indexed store costs a fixed number of cycles — the address fixup is always performed, so there is no page-crossing penalty.",
+      "examples": [
+        "STA $0400",
+        "STA ($08),Y"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "indexed_indirect",
+          "opcode": "81",
+          "operand": "(<zp>,X)",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page",
+          "opcode": "85",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "absolute",
+          "opcode": "8D",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        },
+        {
+          "name": "indirect_indexed",
+          "opcode": "91",
+          "operand": "(<zp>),Y",
+          "bytes": 2,
+          "cycles": "6"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "95",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "4"
+        },
+        {
+          "name": "absolute_y",
+          "opcode": "99",
+          "operand": "<abs16>,Y",
+          "bytes": 3,
+          "cycles": "5"
+        },
+        {
+          "name": "absolute_x",
+          "opcode": "9D",
+          "operand": "<abs16>,X",
+          "bytes": 3,
+          "cycles": "5"
+        }
+      ]
+    },
+    {
+      "id": "m6502.stx",
+      "mnemonic": "STX",
+      "aliases": [],
+      "category": "load_store",
+      "summary": "Store the X register into memory.",
+      "description": "Writes X to the addressed location. No flags change. STX is one of only two instructions with a zero-page,Y mode.",
+      "examples": [
+        "STX $10",
+        "STX $10,Y"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "zero_page",
+          "opcode": "86",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "absolute",
+          "opcode": "8E",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        },
+        {
+          "name": "zero_page_y",
+          "opcode": "96",
+          "operand": "<zp>,Y",
+          "bytes": 2,
+          "cycles": "4"
+        }
+      ]
+    },
+    {
+      "id": "m6502.sty",
+      "mnemonic": "STY",
+      "aliases": [],
+      "category": "load_store",
+      "summary": "Store the Y register into memory.",
+      "description": "Writes Y to the addressed location. No flags change.",
+      "examples": [
+        "STY $10"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "zero_page",
+          "opcode": "84",
+          "operand": "<zp>",
+          "bytes": 2,
+          "cycles": "3"
+        },
+        {
+          "name": "absolute",
+          "opcode": "8C",
+          "operand": "<abs16>",
+          "bytes": 3,
+          "cycles": "4"
+        },
+        {
+          "name": "zero_page_x",
+          "opcode": "94",
+          "operand": "<zp>,X",
+          "bytes": 2,
+          "cycles": "4"
+        }
+      ]
+    },
+    {
+      "id": "m6502.tax",
+      "mnemonic": "TAX",
+      "aliases": [],
+      "category": "transfer",
+      "summary": "Transfer the accumulator to X.",
+      "description": "Copies A into X, leaving A unchanged, and sets N and Z from the value.",
+      "examples": [
+        "TAX"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "AA",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.tay",
+      "mnemonic": "TAY",
+      "aliases": [],
+      "category": "transfer",
+      "summary": "Transfer the accumulator to Y.",
+      "description": "Copies A into Y, leaving A unchanged, and sets N and Z from the value.",
+      "examples": [
+        "TAY"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "A8",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.tsx",
+      "mnemonic": "TSX",
+      "aliases": [],
+      "category": "transfer",
+      "summary": "Transfer the stack pointer to X.",
+      "description": "Copies the stack pointer into X and sets N and Z from the value. It moves the pointer, not stack data, so it is a register transfer rather than a stack operation.",
+      "examples": [
+        "TSX         ; inspect the stack pointer"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "BA",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.txa",
+      "mnemonic": "TXA",
+      "aliases": [],
+      "category": "transfer",
+      "summary": "Transfer X to the accumulator.",
+      "description": "Copies X into A and sets N and Z from the value.",
+      "examples": [
+        "TXA"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "8A",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.txs",
+      "mnemonic": "TXS",
+      "aliases": [],
+      "category": "transfer",
+      "summary": "Transfer X to the stack pointer.",
+      "description": "Copies X into the stack pointer. Unusually for a transfer it sets no flags, which is why startup code can do LDX #$FF / TXS without disturbing them.",
+      "examples": [
+        "LDX #$FF\nTXS         ; reset the stack"
+      ],
+      "flags": [],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "9A",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    },
+    {
+      "id": "m6502.tya",
+      "mnemonic": "TYA",
+      "aliases": [],
+      "category": "transfer",
+      "summary": "Transfer Y to the accumulator.",
+      "description": "Copies Y into A and sets N and Z from the value.",
+      "examples": [
+        "TYA"
+      ],
+      "flags": [
+        "N",
+        "Z"
+      ],
+      "modes": [
+        {
+          "name": "implicit",
+          "opcode": "98",
+          "operand": "",
+          "bytes": 1,
+          "cycles": "2"
+        }
+      ]
+    }
+  ]
+}

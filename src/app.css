@@ -1,0 +1,134 @@
+:root {
+  --bg: #fbfbfa;
+  --panel: #fff;
+  --ink: #1c1c1c;
+  --muted: #6a6a6a;
+  --line: #e0dfdc;
+  --accent: #2f5c8f;
+  --hi: #f2f6fb;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.app { max-width: 1100px; margin: 0 auto; padding: 24px 20px 64px; }
+
+.header { border-bottom: 1px solid var(--line); padding-bottom: 14px; margin-bottom: 18px; }
+.header__title { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+.header__sub { margin: 2px 0 10px; color: var(--muted); font-size: 13px; }
+.header__counts { margin: 0 0 6px; font-size: 14px; }
+.header__legend { margin: 0; font-size: 12.5px; color: var(--muted); }
+
+.pickers { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 14px; }
+.picker { display: flex; flex-direction: column; gap: 4px; }
+.picker__label { font-size: 12px; color: var(--muted); }
+select, input[type='search'] {
+  font: inherit;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--panel);
+  color: inherit;
+}
+
+.filterbar { display: flex; gap: 14px; align-items: flex-end; margin-bottom: 16px; }
+.filterbar__input { flex: 1; min-width: 0; }
+.filterbar__sort { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+
+table { border-collapse: collapse; width: 100%; }
+
+.instructions { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; }
+.instructions thead th {
+  text-align: left;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  background: var(--panel);
+}
+.instructions thead th.num { text-align: right; }
+.row > td { padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.row:hover > td { background: var(--hi); }
+.row--open > td { background: var(--hi); }
+
+.row__toggle {
+  display: flex; align-items: center; gap: 7px;
+  background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer;
+}
+.row__caret { color: var(--muted); width: 10px; }
+.row__mnemonic { font-weight: 700; }
+.row__summary { color: var(--ink); }
+.row__opcodes { font-size: 12.5px; color: var(--muted); }
+.row__flags { font-size: 12.5px; letter-spacing: 0.06em; }
+
+.detail > td { padding: 0 10px 16px 30px; background: var(--hi); border-bottom: 1px solid var(--line); }
+.detail__body { max-width: 78ch; }
+.detail__desc { margin: 10px 0 14px; }
+.modes { border: 1px solid var(--line); background: var(--panel); border-radius: 5px; margin-bottom: 12px; }
+.modes__caption { text-align: left; font-size: 11.5px; color: var(--muted); padding: 6px 8px; }
+.modes th, .modes td { padding: 4px 8px; border-top: 1px solid var(--line); font-size: 13px; text-align: left; }
+.modes th { color: var(--muted); font-weight: 600; }
+.modes td.num, .modes th.num { text-align: right; }
+
+.detail__examples h4 { margin: 0 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.detail__examples pre { margin: 0 0 6px; padding: 8px 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 5px; font-size: 12.5px; overflow-x: auto; }
+
+.empty { padding: 40px 10px; text-align: center; color: var(--muted); }
+.empty button { font: inherit; margin-top: 8px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 5px; background: var(--panel); cursor: pointer; }
+
+.footer { margin-top: 20px; font-size: 11.5px; color: var(--muted); }
+
+button:focus-visible, select:focus-visible, input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* --- M2: horizontal scroll with a pinned mnemonic column --- */
+.table-wrap { overflow-x: auto; }
+
+.instructions thead th:first-child,
+.row > td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--panel);
+}
+.instructions thead th:first-child { z-index: 2; }
+.row:hover > td:first-child,
+.row--open > td:first-child { background: var(--hi); }
+
+.detail__head { display: flex; gap: 14px; align-items: flex-start; }
+.detail__desc { flex: 1; }
+.detail__copy {
+  flex: none;
+  font: inherit;
+  font-size: 12px;
+  margin-top: 10px;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--panel);
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.detail__copy:hover { color: var(--ink); border-color: var(--accent); }
+.detail__copy[data-state='copied'] { color: var(--accent); border-color: var(--accent); }
+.detail__copy[data-state='failed'] { color: #a33; border-color: #a33; }

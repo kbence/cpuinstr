@@ -1,0 +1,11 @@
+{
+  "architectures": [
+    {
+      "id": "m6502",
+      "name": "MOS Technology 6502",
+      "variants": [
+        { "id": "m6502", "name": "6502 (1975)", "file": "sets/m6502.json" }
+      ]
+    }
+  ]
+}
