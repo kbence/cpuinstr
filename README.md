@@ -20,6 +20,12 @@ npm install
 npm run dev
 ```
 
+Reproduce a deploy build locally (Pages serves from a `/cpuinstr/` sub-path):
+
+```bash
+VITE_BASE=/cpuinstr/ npm run build
+```
+
 | Script | Does |
 |---|---|
 | `npm run dev` | Vite dev server |
@@ -56,8 +62,11 @@ easy to get wrong:
 
 ## Deployment
 
-Not deployed yet. `plan/08-deploy.md` covers the options — note that GitHub Pages
-cannot publish from a private repo on the Free plan.
+Live at **<https://kbence.github.io/cpuinstr/>**, published by
+`.github/workflows/deploy.yml` on every push to `main`. The workflow regenerates
+the datasets and fails if the committed JSON has drifted from the transcription
+tables, so hand-edited data cannot ship. `plan/08-deploy.md` records the other
+hosting options considered.
 
 ## Plan
 

@@ -1,5 +1,11 @@
 # 8 · Deployment
 
+> **Decided and shipped.** Option A: the repo was made public and the site is live
+> at <https://kbence.github.io/cpuinstr/> via `.github/workflows/deploy.yml`.
+> `base` is driven by a `VITE_BASE` env var rather than a `GITHUB_ACTIONS` check,
+> so a deploy build is reproducible locally. A `ci.yml` runs the same gates on
+> pull requests. The rest of this file is the reasoning that led there.
+
 The app is a **fully static** Vite build — `npm run build` emits `dist/` with one
 HTML file, one CSS file and one JS bundle (~61 kB gzipped, all data inlined).
 There is no server, no API and no runtime config. Any static host works.
